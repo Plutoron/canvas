@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>filltext</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		#ft{
+			position: absolute;
+		    top: 15px;
+		    left: 100px;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="ft" width="750" height="1334">您的浏览器不支持canvas。</canvas>
+
+	<script type="text/javascript">
+		
+		(function(){
+			var winWidth = 0;
+			var winHeight = 0;
+
+			// 获取窗口宽度
+			if (window.innerWidth)
+				winWidth = window.innerWidth;
+			else if ((document.body) && (document.body.clientWidth))
+				winWidth = document.body.clientWidth;
+			// 获取窗口高度
+			if (window.innerHeight)
+				winHeight = window.innerHeight;
+			else if ((document.body) && (document.body.clientHeight))
+				winHeight = document.body.clientHeight;
+				// 通过深入 Document 内部对 body 进行检测，获取窗口大小
+			if (document.documentElement && document.documentElement.clientHeight && document.documentElement.clientWidth)
+			{
+				winHeight = document.documentElement.clientHeight;
+				winWidth = document.documentElement.clientWidth;
+			}
+			document.getElementById("ft").style.width= 375 + "px";      //注意这里要打引号
+            document.getElementById("ft").style.height= 667 + "px"; 
+
+			
+			
+			var cns = document.getElementById('ft');
+			var ctx = cns.getContext("2d");
+
+			// 第一层矩形
+
+			ctx.fillStyle = "#fbf7f4"; 
+			ctx.fillRect(0, 0, 750, 1334);
+
+			// 第二层矩形
+
+			ctx.fillStyle = "#fff"; 
+			ctx.strokeStyle="#cfd0cb";
+			ctx.fillRect(60, 60, 630, 950);
+			ctx.strokeRect(60, 60, 630, 950); //边框
+
+			// 画虚线
+
+			ctx.setLineDash([10]); //单个虚线长度
+			ctx.lineWidth = 1; 
+			ctx.strokeStyle = '#cfd0cb'; 
+			ctx.beginPath(); 
+			ctx.moveTo(120, 300); 
+			ctx.lineTo(630, 300); 
+			ctx.stroke();
+
+			// title
+
+			var fontSize = 40;
+			var max = 510;
+			var wrapIndex = Math.floor(max/fontSize);
+			
+			// 文字
+
+			ctx.font=`${fontSize}px Georgia`;
+			ctx.fillStyle= "#846026";
+			var title = "快乐方式解决“手机维修回收”用户痛点，";
+			var arr = title.split("");
+			var title1 = arr.splice(0,wrapIndex).join("");
+			var title2 = arr.join("");
+
+			ctx.fillText(title1,120,180);
+			ctx.fillText(title2,120,240);
+
+			//最下面的字
+
+			ctx.font=`26px 黑体`;
+			ctx.fillStyle= "#4a4330";
+			var mediaArr = ['新浪科技','CNBARA'];
+			var totalNum = 2;
+			var mediaTitle = `${mediaArr[0]} / ${mediaArr[1]}  等 ${totalNum} 家媒体报道`;
+	
+			ctx.fillText(mediaTitle,115,1275);
+
+			// 图片
+
+			var img = new Image();
+			// img.src="./code_tra.png";
+			img.setAttribute('crossOrigin', 'anonymous');
+			
+			console.log(0);
+			img.onload = function(){
+				ctx.drawImage(img,285,1040,180,180);
+				console.log(1);
+				var url = cns.toDataURL();
+				console.log(url)
+			}
+
+			// img.src="https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3569761686,4049504148&fm=58";
+			img.src="http://./code_tra.png";
+
+
+			// console.log(url)
+		})();
+	</script>
+</body>
+</html>

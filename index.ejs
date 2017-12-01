@@ -1,0 +1,147 @@
+<% include header %>
+
+  <h1><%-title %></h1>
+  <p>Welcome to <%-title %></p>
+
+
+<script>
+	(function(){
+			var winWidth = 0;
+			var winHeight = 0;
+
+			// 获取窗口宽度
+			if (window.innerWidth)
+				winWidth = window.innerWidth;
+			else if ((document.body) && (document.body.clientWidth))
+				winWidth = document.body.clientWidth;
+			// 获取窗口高度
+			if (window.innerHeight)
+				winHeight = window.innerHeight;
+			else if ((document.body) && (document.body.clientHeight))
+				winHeight = document.body.clientHeight;
+				// 通过深入 Document 内部对 body 进行检测，获取窗口大小
+			if (document.documentElement && document.documentElement.clientHeight && document.documentElement.clientWidth)
+			{
+				winHeight = document.documentElement.clientHeight;
+				winWidth = document.documentElement.clientWidth;
+			}
+			
+			var canvas = document.createElement("canvas");  
+			canvas.id = "canvas";  
+			var body = document.getElementsByTagName("body")[0];  
+			body.appendChild(canvas);  
+			  
+			//设置宽高一定要在canvas节点添加之后  
+			document.getElementById("canvas").width = 750;  
+			document.getElementById("canvas").height = 1334;  
+
+			document.getElementById("canvas").style.width= 375 + "px";      //注意这里要打引号
+            document.getElementById("canvas").style.height= 667 + "px"; 
+
+			var cns = document.getElementById('canvas');
+			var ctx = cns.getContext("2d");
+
+			// 第一层矩形
+
+			ctx.fillStyle = "#fbf7f4"; 
+			ctx.fillRect(0, 0, 750, 1334);
+
+			// 第二层矩形
+
+			ctx.fillStyle = "#fff"; 
+			ctx.strokeStyle="#cfd0cb";
+			ctx.fillRect(60, 60, 630, 950);
+			ctx.strokeRect(60, 60, 630, 950); //边框
+
+			// 画虚线
+
+			ctx.setLineDash([10]); //单个虚线长度
+			ctx.lineWidth = 1; 
+			ctx.strokeStyle = '#cfd0cb'; 
+			ctx.beginPath(); 
+			ctx.moveTo(120, 300); 
+			ctx.lineTo(630, 300); 
+			ctx.stroke();
+
+			// title
+			var max = 510;
+
+			// title文字
+			var titleFontSize = 40;
+			
+			ctx.font=`${titleFontSize}px 微软雅黑`;
+			ctx.fillStyle= "#846026";
+			var title = `<%=title%>`;
+			var titleArr = transTextArr(title,510);
+			
+			titleArr.forEach(function(v,i,a){
+				let y = 180 + i * 60;
+				ctx.fillText(v,120,y);
+			})
+			
+			// content文字
+			var contentFontSize = 28;
+			
+			ctx.font=`${contentFontSize}px 微软雅黑`;
+			ctx.fillStyle= "#4a4330";
+			var content = `<%=content%>`;
+			var contentArr = transTextArr(content,495);;
+			
+			contentArr.forEach(function(v,i,a){
+				let y = 360 + i * 50;
+				ctx.fillText(v,120,y);
+			})
+
+			//最下面的字
+
+			ctx.font=`26px 黑体`;
+			ctx.fillStyle= "#4a4330";
+			var mediaArr = `<%=mediaArr%>`;
+			var mediaArr = mediaArr.split(",");
+
+			var totalNum = mediaArr.length;
+			var mediaTitle = `${mediaArr[0]} / ${mediaArr[1]}  等 ${totalNum} 家媒体报道`;
+	
+			ctx.fillText(mediaTitle,115,1275);
+
+			// 图片
+
+			var img = new Image();
+			// img.src="./code_tra.png";
+			img.setAttribute('crossOrigin', 'anonymous');
+			
+			console.log(0);
+			img.onload = function(){
+				ctx.drawImage(img,285,1040,180,180);
+				console.log(1);
+				var url = cns.toDataURL();
+				console.log(url)
+			}
+
+			img.src="img/code_tra.png";
+
+
+			function transTextArr(t,w){
+			    var chr = t.split("");
+			    var temp = "";              
+			    var row = [];
+
+			    for(var a = 0; a < chr.length; a++){
+			        if( ctx.measureText(temp).width < w ){
+			          
+			        }
+			        else{
+			            row.push(temp);
+			            temp = "";
+			        }
+			        temp += chr[a];
+			    }
+			    row.push(temp);
+			    return row;
+			}
+		})();
+
+</script>
+
+
+<% include footer %>
